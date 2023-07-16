@@ -1,5 +1,6 @@
 <template>
     <div id="canvas">
+      <ExitButton style=""/>
       <div id="deep-space" />
       <div id="space-field">
         <SpaceObject id="spaceship" class="spaceship" :data="spaceField.ship" resolution="2" />
@@ -24,7 +25,6 @@
     data: spaceField,
     refresh: updateSpaceField
   } = await $get("/space-field");
-  
   onMounted(() => {
     window.addEventListener("keydown", async (event) => {
       const keyToCommand = {

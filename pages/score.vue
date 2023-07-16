@@ -1,47 +1,54 @@
 <template>
-    <div id="body">
-        <h1> Olá MUndo</h1>
-    </div>
-    <!--<div id="body">
-      <div id="menu">
-        <div id="title">
-          <h1> Galaxy Raiders </h1>
+    <div id="body-score">
+      <div id="table">
+        <div id="title_table">
+          <h1 id="h1-leaderboard"> Leaderboard</h1>
         </div>
-        <router-link to="/game" class="link_text">Iniciar Partida</router-link>
-        <router-link to="/game" class="link_text">Placar</router-link>
-        <router-link to="/game" class="link_text">Sair</router-link>
+        <div id="leaderboard">
+          <table class="table">
+            <thead>
+              <tr class="table-row">
+                <td class="table-cell">Pontuação</td>
+                <td class="table-cell">Asteróides destruídos</td>
+                <td class="table-cell">Data</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-row" v-for="item in leaderboard">
+                <td class="table-cell">{{item.score}}</td> 
+                <td class="table-cell">{{item.asteroidsDestroyed}}</td>
+                <td class="table-cell">{{item.date}}</td>
+              </tr>
+            </tbody>
+          </table>
+        
+        </div>
       </div>
-      <router-view></router-view>
     </div>
-    <div id="canvas">
-      <div id="deep-space" />
-      <div id="space-field">
-        <SpaceObject id="spaceship" class="spaceship" :data="spaceField.ship" resolution="2" />
-  
-        <SpaceObject class="asteroid" :data="asteroid" resolution="2"
-                    :key="asteroid.center"
-                    v-for="asteroid in spaceField.asteroids" />
-  
-        <SpaceObject class="missile" :data="missile" resolution="2"
-                    :key="missile.center"
-                    v-for="missile in spaceField.missiles" />
-  
-        <SpaceObject class="explosion" :data="explosion" resolution="2"
-                    :key="explosion.center"
-                    v-for="explosion in spaceField.explosions" />
-      </div>
-    </div>-->
   </template>
   
   <script>
+  
   export default {
-    name: 'Index'
-  }
+    name: 'Score',
+    data() {
+    return { leaderboard: [] };},
+    async created() {
+      try {
+        const response = await fetch('http://localhost:5000/v1/score');
+        const data = await response.json();
+        this.leaderboard = data;
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  };
+  
   </script>
   
-  
   <style>
-  #body {
+
+  #body-score {
     height: 100vh;
     width: 100vw;
   
@@ -51,31 +58,35 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-  
-    /*padding: 2rem;
-  
-    background-color: #36bbf5;
-    overflow: hidden;
-  
-    position: relative;
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;*/
   }
-  
-  #menu {
-    height: 45vh;
-    width: 24vw;
-    background-color: #3c8fb2;
+
+  #table {
+    height: 40vh;
+    width: 20vw;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #000000;
-    border-radius: 40px 120px;
+    flex-flow: column;
+    border-radius: 20px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4), -3px -3px 5px rgba(0, 0, 0, 0.4);
+  }
+
+  #title-table {
+    height:30%;
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
   
+  #leaderboard {
+    height: 70%;
+    width: 100%;
+    display:flex;
+    position:relative;
+    justify-content: center;
+    align-items: center;
   }
   
   #title {
@@ -84,23 +95,16 @@
   
   #game_link {
     width: 24vw;
-    font-size: 48px;
+    font-size: 34px;
     color: white;
   }
   
-  nav {
-    background-color: #f0f0f0;
-    padding: 10px;
-  }
-  
-  nav router-link {
-    margin-right: 10px;
-  }
-  
-  h1 {
+  #h1-leaderboard {
     color: black;
-    font-size: 48px;
-    font-family: 'Franklin Gothic Medium';
+    font-size: 38px;
+    font-family: 'Arial';
+    font-weight: bold;
+    
   }
   
   .link_text {
@@ -108,12 +112,21 @@
     font-size: 24px;
     color: white;
   }
-  
-  /* Estilos para o conteúdo 
-  router-view {
-    padding: 20px;
-    background-color: #f9f9f9;
-  }*/
+
+  .table {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .table-row {
+    display: flex;
+  }
+
+  .table-cell {
+    flex-basis: 33.33%;
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
   
   </style>
   

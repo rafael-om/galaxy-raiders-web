@@ -2,6 +2,10 @@
 
 Web interface for the API project of MAC0218 - Programming Techniques II at @USP 
 
+# EP3: Observação
+Para este EP, a API também foi modificada. Assim, certifique-se de que a API usada seja
+aquela na _branch_ **p3** dos alunos.
+
 # Nuxt 3 Minimal Starter
 
 Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
